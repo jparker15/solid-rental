@@ -6,22 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 @CrossOrigin
 @RestController
-@RequestMapping("/api/cars")
+@RequestMapping("/api/vehicles")
 public class VehicleController {
 
 
         @Autowired
         private VehicleRepository repository;
 
+        //Read All
         @GetMapping
         public @ResponseBody
-        List<Vehicle> getCars(){return repository.findAll();}
+        List<Vehicle> getVehicles(){return repository.findAll();}
 
+        //Read by ID
+        @GetMapping("/{id}")
+        public @ResponseBody Vehicle getVehicleId(@PathVariable Long id){
+                return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        }
 
+        //Create One
         @PostMapping
         public ResponseEntity<Vehicle> createVehicle(@RequestBody Vehicle newVehicle){
             return new ResponseEntity<>(repository.save(newVehicle), HttpStatus.CREATED);
