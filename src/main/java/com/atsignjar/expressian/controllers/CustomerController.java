@@ -49,6 +49,9 @@ public class CustomerController {
         }
 
         @DeleteMapping("/id")
-        public ResponseEntity
+        public ResponseEntity<String> destroyCustomer(@PathVariable Long id){
+                repository.deleteById(id);
+                return null;
+        }
 
 }
